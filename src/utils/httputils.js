@@ -25,6 +25,7 @@ apiClient.interceptors.request.use((config) => {
 });
 
 export const loginRequest = (loginData) => {
+  console.log(loginData);
   return apiClient.post("/api/login", loginData);
 };
 

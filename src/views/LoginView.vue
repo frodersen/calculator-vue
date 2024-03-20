@@ -12,42 +12,40 @@
   </div>
 </template>
 <script>
+import { ref } from 'vue';
+import { useStore } from 'vuex';
 import { loginRequest } from "@/utils/httputils.js";
 import router from '@/router';
-import store from "@/store";
 
 export default {
-  data() {
-    return {
-      username: "",
-      password: "",
-      loginStatus: "",
-    };
-  },
-  methods: {
-    async handleLoginClick() {
+  setup() {
+    const username = ref('');
+    const password = ref('');
+    const loginStatus = ref('');
+    const store = useStore();
+
+    const handleLoginClick = async () => {
       const loginData = {
-        username: this.username,
-        password: this.password,
+        username: username.value,
+        password: password.value,
       };
       try {
         const response = await loginRequest(loginData);
         if (response && response.data && response.status === 200) {
-          // Assuming your API returns a token and you're using Vuex for state management
-          // this.$store.commit('setToken', response.data.token);
-          // Or directly using localStorage/sessionStorage
-          store.commit('SET_TOKEN', response.data.token);
-          store.commit('SET_USERNAME', this.username);
-          router.push({ path: '/calculator' }); // or whatever route you want to redirect
+          store.commit('SET_TOKEN', response.data.jwtoken);
+          store.commit('SET_USERNAME', username.value);
+          router.push({ path: '/calculator' });
         } else {
-          this.loginStatus = "Login failed! Please check your username and password.";
+          loginStatus.value = "Login failed! Please check your username and password.";
         }
       } catch (error) {
         console.error("Login failed:", error);
-        this.loginStatus = "Login failed!";
+        loginStatus.value = "Login failed!";
       }
-    },
-  },
+    };
+
+    return { username, password, loginStatus, handleLoginClick };
+  }
 };
 </script>
 <style scoped>

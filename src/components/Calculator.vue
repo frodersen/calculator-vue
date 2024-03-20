@@ -25,9 +25,10 @@
   
   <script setup>
 import { ref } from 'vue';
-import store from "@/store";
 import axios from 'axios';
+import { useStore } from 'vuex';
 
+const store = useStore();
 const currentInput = ref('');
 const history = ref([]);
 const showHistory = ref(false);
@@ -46,13 +47,14 @@ const onButtonClick = (button) => {
 
 const calculate = () => {
   const expression = currentInput.value;
-  const token = store.getters.GET_TOKEN; // Use store.getters to access GET_TOKEN
+  const token = store.getters.GET_TOKEN; // Using the store to get the token
+
 
   // Retrieve the token from localStorage
 
   axios.post('http://localhost:8080/api/calculate', { expression: expression }, {
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`  
     }
   })
   .then(response => {
