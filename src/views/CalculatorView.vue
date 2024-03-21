@@ -1,20 +1,27 @@
 <template>
-  <Calculator/>
-  <div class="feedbackContainer">
-    <h4>Gi tilbakemelding? Trykk her!</h4>
-    <router-link to="/contact-form" class="feedback">
-      <button class="">
-        <span class="front">Kontakskjema</span>
-      </button>
-    </router-link>
+  <Calculator />
+  <div class="actionsContainer">
+    <button @click="openCalculations">Se Kalkulasjoner</button>
+    <div class="feedbackContainer">
+      <h4>Gi tilbakemelding? Trykk her!</h4>
+      <router-link to="/contact-form" class="feedback">
+        <button>
+          <span class="front">Kontakskjema</span>
+        </button>
+      </router-link>
+    </div>
   </div>
 </template>
-<script>
+
+<script setup>
+import { useRouter } from 'vue-router';
 import Calculator from "../components/Calculator.vue";
 
-export default {
-  name: "Home",
-  components: { Calculator },
+const router = useRouter();
+
+const openCalculations = () => {
+  // Navigate to the calculations view
+  router.push({ name: 'Calculations' });
 };
 </script>
 

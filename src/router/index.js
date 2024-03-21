@@ -25,6 +25,12 @@ const routes = [
     component: () =>
       import("../views/ContactFormView.vue"),
   },
+  {
+    path: '/calculations',
+    name: 'Calculations', // This name will be used for navigation
+    component: () => 
+      import("../components/Calculations.vue"),
+  },
 ];
 
 const router = createRouter({
